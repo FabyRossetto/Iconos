@@ -5,7 +5,9 @@
  */
 package com.alkemy.alkemyProject.entidades;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,6 +23,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 /**
  *
@@ -30,6 +34,8 @@ import lombok.Setter;
 @Table(name="pais") //asi se va a llamar la tabla
 @Getter //Lombok crea getters y setters para no codearlos
 @Setter
+@SQLDelete(sql= "UPDATE pais SET deleted=true WHERE id=?")//soft delete
+@Where(clause="delete=false")//con esto se diferencia los que fueron borrados de los que no
 public class Paises {
     @Id
     
@@ -65,11 +71,13 @@ public class Paises {
         
     })
     //cuando creo un pais le paso la lista de iconos
+   
     @JoinTable(
             name="icono_pais",//como quiero llamar la tabla intermedia
             joinColumns=@JoinColumn(name="pais_id"),
             inverseJoinColumns=@JoinColumn(name="icono_id"))//es del otro lado hacia aca
-    private Set<Iconos> iconos= new HashSet<>();
+            private List <Iconos> iconos= new ArrayList<>();
+    
     
     @Override
     public boolean equals(Object obj){
