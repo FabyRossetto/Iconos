@@ -26,35 +26,41 @@ public class PaisesServiceImplementacion implements PaisesService{
     PaisesRepository pr;
      @Autowired
     PaisMapper pm;
+
+    public PaisesServiceImplementacion(PaisesRepository pr, PaisMapper pm) {
+        this.pr = pr;
+        this.pm = pm;
+    }
    
     
     @Override
-    public PaisDTO save(PaisDTO dto){
+    public PaisDTO save(PaisDTO dto,boolean cargarIconos){
         Paises entidad= pm.DtoAEntidad(dto);
         Paises entidadGuardada = pr.save(entidad);//esto me devuelve la entidad guardada
-        PaisDTO result= pm.EntidadADto(entidadGuardada,false);//la convierto en DTO
+        PaisDTO result= pm.EntidadADto(entidadGuardada,cargarIconos);//la convierto en DTO
         
         return result;//lo devuelvo como dto
     }
-    @Override
-    public PaisDTO modificarPais(Long id,String imagen,String nombre,Long ch,Long superficie,Continente continente,Long ContId) {
+    
+    
+    public PaisDTO modificarPais(Long id,PaisDTO dto,boolean cargarIconos) {
 
         //optional es una clase que puede o no puede contener un valor, se usa por las dudas que el dato ingresado sea nulo
         Optional<Paises> respuesta = pr.findById(id);
        
             Paises pais = respuesta.get();
            
-            pais.setImagen(imagen);
-            pais.setNombre(nombre);
-            pais.setCantidadHabitantes(ch);
-            pais.setSuperficie(superficie);
+            pais.setImagen(dto.getImagen());
+            pais.setNombre(dto.getNombre());
+            pais.setCantidadHabitantes(dto.getCantidadHabitantes());
+            pais.setSuperficie(dto.getSuperficie());
             
-            pais.setContinente(continente);
-            pais.setContinenteId(ContId);
+            pais.setContinente(dto.getContinente());
+            pais.setContinenteId(dto.getContinenteId());
             
             pr.save(pais);
             
-          PaisDTO result=pm.EntidadADto(pais, true);
+          PaisDTO result=pm.EntidadADto(pais,cargarIconos);
         
         
         return result;
@@ -62,17 +68,22 @@ public class PaisesServiceImplementacion implements PaisesService{
     }
     
     @Override
-     public List<PaisDTO> getAllPaises() {//me trae todos los paises,sin los iconos.
+     public List<PaisDTO> getAllPaises(boolean cargarIconos) {//me trae todos los paises,sin los iconos.
         List<Paises>entidades=this.pr.findAll();
-        List<PaisDTO>result=this.pm.EntidadListADtoList(entidades,Boolean.FALSE);
+        List<PaisDTO>result=this.pm.EntidadListADtoList(entidades,cargarIconos);
         return result;
     }
     
     @Override
-    public void remove(Long idIcono,Long idPais){//borra los paises y los iconos
-        this.pr.deleteById(idIcono);
-        this.pr.deleteById(idPais);
+    public void delete(Long id){
+        this.pr.deleteById(id);
+       
     }
+
+   
+    @Override
+    public List<Paises> getAllById(List<Long> paises) {
+        return null;    }
 
    
     

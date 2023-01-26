@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
  */
 @Component //esto me permite inyectarlo en la clase
 public class ContinenteMapper {
+
+   
     
     public Continente DtoAEntidad(continenteDTO dto){
         Continente cont=new Continente();

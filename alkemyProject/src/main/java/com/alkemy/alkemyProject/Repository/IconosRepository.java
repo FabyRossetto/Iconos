@@ -6,7 +6,10 @@
 package com.alkemy.alkemyProject.Repository;
 
 import com.alkemy.alkemyProject.entidades.Iconos;
+import java.util.List;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Repository;
  * @author Fabi
  */
 @Repository
-public interface IconosRepository extends JpaRepository<Iconos,Long>{
-    
+public interface IconosRepository extends JpaRepository<Iconos,Long>,JpaSpecificationExecutor<Iconos>{
+  
+    @Override
+    List<Iconos>findAll(Specification<Iconos> spec);
 }

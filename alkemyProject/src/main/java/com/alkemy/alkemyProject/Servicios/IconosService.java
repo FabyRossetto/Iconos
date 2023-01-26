@@ -5,10 +5,12 @@
  */
 package com.alkemy.alkemyProject.Servicios;
 
+import com.alkemy.alkemyProject.DTO.IconoBasicoDTO;
 import com.alkemy.alkemyProject.DTO.IconoDTO;
 import com.alkemy.alkemyProject.entidades.Paises;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -17,15 +19,17 @@ import java.util.List;
  */
 public interface IconosService {
     
-     IconoDTO save(IconoDTO dto);
+     IconoDTO save(IconoDTO dto,boolean cargarPaises);
      
-    List<IconoDTO>getAllIconos();
+    List<IconoDTO>getAllIconos(boolean cargarPaises);
     
-    void remove(Long idIcono,Long idPais);
+  List<IconoDTO> getByFilters(String name,String date,Set<Long>cities,String order);
+    
+//    void remove(Long idIcono,Long idPais);
     
     void delete(Long id);
     
-    IconoDTO modificarIcono(Long id,String nombre,String historia,String imagen,Long altura,LocalDate fc);
+    IconoDTO modificarIcono(Long id,IconoDTO DTO,boolean cargarPaises);
     
-    IconoDTO addPais(Long id,Paises pais);
+    IconoDTO addPais(Long idIcono,List<Long>idPaises,boolean cargarPaises);
 }

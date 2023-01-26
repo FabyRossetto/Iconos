@@ -7,15 +7,20 @@ package com.alkemy.alkemyProject.Mapper;
 
 import com.alkemy.alkemyProject.DTO.IconoBasicoDTO;
 import com.alkemy.alkemyProject.DTO.IconoDTO;
-import com.alkemy.alkemyProject.DTO.PaisDTO;
+import com.alkemy.alkemyProject.Repository.IconosRepository;
+import com.alkemy.alkemyProject.Repository.PaisesRepository;
+
 import com.alkemy.alkemyProject.entidades.Iconos;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import com.alkemy.alkemyProject.entidades.Paises;
+
 import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.List;
-import javax.persistence.Id;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,14 +29,22 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class IconoMapper {
-    @Autowired
+    
+     @Autowired
+    @Lazy
     private PaisMapper pm;
+    @Autowired
+    private PaisesRepository pr;
+
+    @Autowired
+    private IconosRepository ir;
+
     
      public Iconos DtoAEntidad(IconoDTO dto){
         Iconos i=new Iconos();
         i.setImagen(dto.getImagen());//le seteo por la imagen que traiga el dto
         i.setNombre(dto.getNombre());//le seteo por el nombre que traiga el dto
-        i.setFechaCreacion(this.stringALocalDate(dto.getFechaCreacion()));
+        i.setFechaCreacion(dto.getFechaCreacion());
         i.setAltura(dto.getAltura());
         i.setHistoria(dto.getHistoria());
         return i;
@@ -44,23 +57,22 @@ public class IconoMapper {
         dto.setId(entidad.getId());
         dto.setImagen(entidad.getImagen());
         dto.setNombre(entidad.getNombre());
-        dto.setFechaCreacion(entidad.getFechaCreacion().toString());
+        dto.setFechaCreacion(entidad.getFechaCreacion());
         dto.setAltura(entidad.getAltura());
         dto.setHistoria(entidad.getHistoria());
-        if(cargarPaises=true){ // esto es para saber si hay que cargar los paises o no. Por defecto no los carga.
-            List<PaisDTO>paisesDTO = this.pm.EntidadListADtoList(entidad.getPaises(),Boolean.FALSE);
-            dto.setPaises(paisesDTO);
+       if(cargarPaises){ // esto es para saber si hay que cargar los paises o no. Por defecto no los carga.
+            dto.setPaises(entidad.getPaises().stream().map(Paises::getId).collect(Collectors.toList()));
         }
         return dto;
     }
     
-    private LocalDate stringALocalDate(String stringDate){
-        DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-mm-dd");
-        LocalDate date=LocalDate.parse(stringDate, formatter);
-        return date;
-    }
+//    private LocalDate stringALocalDate(String stringDate){
+//        DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-mm-dd");
+//        LocalDate date=LocalDate.parse(stringDate, formatter);
+//        return date;
+//    }
     
-    public List<IconoBasicoDTO> IconosSetABasicoDTOList(Collection<Iconos>entidades){
+    public List<IconoBasicoDTO> IconosListAIconoBasicoDTOList(List<Iconos>entidades){
         List<IconoBasicoDTO>dtos=new ArrayList<>();
         IconoBasicoDTO bd;
         for(Iconos entidad: entidades){

@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -25,6 +25,13 @@ public class ContinenteServiceImplementacion implements ContinenteService{
     ContinenteMapper cm;
     @Autowired
     ContinenteRepository cr;
+
+    public ContinenteServiceImplementacion(ContinenteMapper cm, ContinenteRepository cr) {
+        this.cm = cm;
+        this.cr = cr;
+    }
+    
+    
     
     @Override
     public continenteDTO save(continenteDTO dto){
@@ -34,20 +41,20 @@ public class ContinenteServiceImplementacion implements ContinenteService{
         
         return result;
     }
-    @Override
-    public continenteDTO modificarContinente(Long id,String nombre,String imagen) {
+    
+    public continenteDTO modificarContinente(Long id,continenteDTO dto) {
 
         //optional es una clase que puede o no puede contener un valor, se usa por las dudas que el dato ingresado sea nulo
         Optional<Continente> respuesta = cr.findById(id);
        
-            Continente con = respuesta.get();
+            Continente conti = respuesta.get();
             
-            con.setNombre(nombre);
-            con.setImagen(imagen);
+            conti.setNombre(dto.getNombre());
+            conti.setImagen(dto.getImagen());
 
-            cr.save(con);
+            cr.save(conti);
             
-          continenteDTO result=cm.EntidadADto(con);
+          continenteDTO result=cm.EntidadADto(conti);
         
         
         return result;
@@ -62,7 +69,7 @@ public class ContinenteServiceImplementacion implements ContinenteService{
     }
     
      @Override
-    public void delete(Long id){//borra los continentes
+    public void delete(Long id){//borra los continentes(soft)
         this.cr.deleteById(id);
     }
     

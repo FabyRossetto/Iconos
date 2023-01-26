@@ -5,6 +5,7 @@
  */
 package com.alkemy.alkemyProject.DTO;
 
+import com.alkemy.alkemyProject.entidades.Paises;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Getter;
@@ -20,10 +21,10 @@ public class IconoDTO {
     private Long id;
     private String imagen;
     private String nombre;
-    private String fechaCreacion;
+    private LocalDate fechaCreacion;
 
     private Long altura;
     private String historia;
-  private List<PaisDTO> paises;
+  private List<Long> paises;
 
 }

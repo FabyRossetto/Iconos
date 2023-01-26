@@ -21,7 +21,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -34,6 +37,9 @@ import org.hibernate.annotations.Where;
 @Table(name="pais") //asi se va a llamar la tabla
 @Getter //Lombok crea getters y setters para no codearlos
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @SQLDelete(sql= "UPDATE pais SET deleted=true WHERE id=?")//soft delete
 @Where(clause="delete=false")//con esto se diferencia los que fueron borrados de los que no
 public class Paises {
@@ -60,6 +66,7 @@ public class Paises {
     @Column(name="continente_id", nullable= false)
     private Long continenteId;
     //aca puedo actualizar o borrar el id del continente,lo guardo
+
     
     
     //se aplica el la definicion del many to many de este lado de paises, porque paises engloba a iconos
@@ -76,7 +83,7 @@ public class Paises {
             name="icono_pais",//como quiero llamar la tabla intermedia
             joinColumns=@JoinColumn(name="pais_id"),
             inverseJoinColumns=@JoinColumn(name="icono_id"))//es del otro lado hacia aca
-            private List <Iconos> iconos= new ArrayList<>();
+            private List <Iconos> iconos;
     
     
     @Override

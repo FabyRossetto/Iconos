@@ -46,8 +46,8 @@ public class continenteController {
                 //el created devuelve un 200,codigo de exito y crea el continente
     }
     @PutMapping("/{id}")
-    public ResponseEntity<continenteDTO>update(@PathVariable Long id,@RequestBody String nombre,@RequestBody String imagen){
-      continenteDTO result= this.cs.modificarContinente(id, nombre, imagen);
+    public ResponseEntity<continenteDTO>update(@PathVariable Long id,continenteDTO dto){
+      continenteDTO result= this.cs.modificarContinente(id, dto);
        return ResponseEntity.ok().body(result);
   }
     

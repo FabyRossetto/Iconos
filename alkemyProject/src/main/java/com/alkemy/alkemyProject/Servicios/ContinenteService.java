@@ -15,10 +15,13 @@ import java.util.List;
 public interface ContinenteService {
     
    continenteDTO save(continenteDTO dto);
+   
     List<continenteDTO>getAllContinentes();
     
-    continenteDTO modificarContinente(Long id,String nombre,String imagen);
-void delete(Long id);
+    continenteDTO modificarContinente(Long id,continenteDTO dto);
+
+    
+    void delete(Long id);//soft delete
     
     
 }

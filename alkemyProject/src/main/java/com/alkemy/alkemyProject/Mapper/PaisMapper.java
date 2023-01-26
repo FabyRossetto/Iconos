@@ -5,12 +5,13 @@
  */
 package com.alkemy.alkemyProject.Mapper;
 
-import com.alkemy.alkemyProject.DTO.IconoDTO;
+
 import com.alkemy.alkemyProject.DTO.PaisDTO;
 import com.alkemy.alkemyProject.entidades.Paises;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,8 +20,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PaisMapper {
-    @Autowired
-    private IconoMapper im;
+   
+     @Autowired
+    IconoMapper im;
+     
     public Paises DtoAEntidad(PaisDTO dto){
         Paises p =new Paises();
         p.setImagen(dto.getImagen());//le seteo por la imagen que traiga el dto
@@ -43,17 +46,17 @@ public class PaisMapper {
         dto.setContinente(dto.getContinente());
         dto.setContinenteId(dto.getContinenteId());
         
-        if(cargarIcono=true){ // esto es para saber si hay que cargar los ICONOS o no. Por defecto no los carga.
-            List<IconoDTO>IconosDTO = this.im.EntidadListADtoList(entidad.getIconos(),Boolean.FALSE);//el metodo aun no esta
-            dto.setIconos(IconosDTO);//paises no tiene el atributo icono
-        }
+//        if(cargarIcono){ // esto es para saber si hay que cargar los ICONOS o no. Por defecto no los carga.
+//            List<IconoDTO>IconosDTO = this.im.EntidadListADtoList(entidad.getIconos(),Boolean.FALSE);
+//            dto.setIconos(IconosDTO);
+//        }
         return dto;
     }
     
     public List<PaisDTO> EntidadListADtoList (List<Paises> entidades,boolean cargarIconos){
         List<PaisDTO> dtos= new ArrayList();
         for(Paises entidad:entidades){
-            dtos.add(this.EntidadADto(entidad,cargarIconos));//no tengo los metodos
+            dtos.add(this.EntidadADto(entidad,cargarIconos));
         }
         return dtos;
     }
@@ -64,4 +67,5 @@ public class PaisMapper {
         }
         return paises;
     }
+     
 }

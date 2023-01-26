@@ -7,6 +7,7 @@ package com.alkemy.alkemyProject.Servicios;
 
 import com.alkemy.alkemyProject.DTO.PaisDTO;
 import com.alkemy.alkemyProject.entidades.Continente;
+import com.alkemy.alkemyProject.entidades.Paises;
 import java.util.List;
 
 
@@ -17,9 +18,12 @@ import java.util.List;
  */
 public interface PaisesService {
     
-     PaisDTO save(PaisDTO dto);
-    List<PaisDTO>getAllPaises();
+     PaisDTO save(PaisDTO dto,boolean cargarIconos);
+     PaisDTO modificarPais(Long id,PaisDTO dto,boolean cargarIconos);
+     
+    List<PaisDTO>getAllPaises(boolean cargarIconos);
     
-    void remove(Long idIcono,Long idPais);
-    PaisDTO modificarPais(Long id,String imagen,String nombre,Long ch,Long superficie,Continente continente,Long ContId);
+    void delete(Long id);
+    
+    List<Paises> getAllById(List<Long> paises);
 }

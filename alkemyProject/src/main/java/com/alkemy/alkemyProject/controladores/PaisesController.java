@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -31,29 +32,33 @@ public class PaisesController {
      @Autowired
     PaisesService ps;
     
-    @PostMapping("/{id}")
-    public ResponseEntity<PaisDTO>save(@RequestBody PaisDTO dto){
-      PaisDTO result= this.ps.save(dto);
-       return ResponseEntity.ok().body(result);
+    @PostMapping
+    public ResponseEntity<PaisDTO>save(@RequestBody PaisDTO dto,@RequestParam(value = "cargarIconos", required = false)
+                                          boolean cargarIconos){
+      PaisDTO paisGuardado= this.ps.save(dto,cargarIconos);
+       return ResponseEntity.status(HttpStatus.CREATED).body(paisGuardado);
   }
+     @GetMapping
+    public ResponseEntity <List<PaisDTO>> getAll(@RequestParam(value = "cargarIconos", required = false)
+                                                      boolean cargarIconos){
+        List<PaisDTO>paises=ps.getAllPaises(cargarIconos);
+        return ResponseEntity.ok().body(paises);
+    }
     
    @PutMapping("/{id}")
-    public ResponseEntity<PaisDTO>update(@PathVariable Long id,@RequestBody String imagen,@RequestBody String nombre,@RequestBody Long ch,@RequestBody Long superficie,@RequestBody Continente continente,Long contId){
-      PaisDTO result= this.ps.modificarPais(id, imagen, nombre, ch, superficie, continente, contId);
-       return ResponseEntity.ok().body(result);
+    public ResponseEntity<PaisDTO>update(@PathVariable Long id,@RequestBody PaisDTO dto,@RequestParam(value = "cargarIconos", required = false)
+                                                boolean cargarIconos){
+      PaisDTO paisModif= this.ps.modificarPais(id, dto,cargarIconos);
+       return ResponseEntity.ok().body(paisModif);
   }
     
    
  
      @DeleteMapping("/{id}/pais/{idPais}")
-    public ResponseEntity<Void> removePais(@PathVariable Long id,@PathVariable Long idPais){
-        this.ps.remove(id,idPais);
+    public ResponseEntity<Void> delete(@PathVariable Long id){//soft delete
+        this.ps.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-     @GetMapping
-    public ResponseEntity <List<PaisDTO>> getAll(){
-        List<PaisDTO>paises=ps.getAllPaises();
-        return ResponseEntity.ok().body(paises);
-    }
+    
     
 }
