@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
+
 import org.hibernate.annotations.Where;
 
 @Entity
@@ -30,7 +31,6 @@ import org.hibernate.annotations.Where;
 @Where(clause="delete=false")//con esto se diferencia los que fueron borrados de los que no
 public class Continente {
     @Id
-   
     @GeneratedValue(strategy=GenerationType.SEQUENCE)//esto es para que se cree el id secuencialmente
     private Long id;
     private String imagen;
