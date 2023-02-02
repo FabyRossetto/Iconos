@@ -5,6 +5,7 @@
  */
 package com.alkemy.alkemyProject.auth.service;
 
+import com.alkemy.alkemyProject.Servicios.EmailSender;
 import com.alkemy.alkemyProject.auth.DTO.UserDTO;
 import com.alkemy.alkemyProject.auth.Entity.UserEntity;
 import com.alkemy.alkemyProject.auth.repository.UserRepository;
@@ -28,8 +29,8 @@ public class UserDetailsCustomService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-//    @Autowired
-//    private EmailService emailservice;
+   @Autowired
+   private EmailSender emailservice;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -50,9 +51,9 @@ public class UserDetailsCustomService implements UserDetailsService {
         user.setUsername(userDTO.getUsername());
         user.setPassword(userDTO.getPassword());
         user = this.userRepository.save(user);
-//        if(user!=null){
-//            emailService.sendWelcomeEmailTo(user.getUsername());
-//        }
+       if(user!=null){
+            emailservice.enviarMailDeBienvenida(user.getUsername());
+       }
         return user!=null;
     }
 

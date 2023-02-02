@@ -76,7 +76,7 @@ public class IconosController {
 //        IconoDTO icono=this.is.getDetailsById(id);//hacer este metodo en el servicio
 //        return ResponseEntity.ok(icono);
 //    }
-////    hay varios get por eso no funciona!
+
     @GetMapping("/filtrar")
     public ResponseEntity<List<IconoDTO>> getByFilters(
     @RequestParam(required= false)String name,
